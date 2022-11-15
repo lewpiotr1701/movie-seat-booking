@@ -4,7 +4,7 @@ const count = document.querySelector("#count");
 const total = document.querySelector("#total");
 const movieSelect = document.querySelector("#movie");
 
-const ticketPrice = parseInt(movieSelect.value, 10);
+let ticketPrice = parseInt(movieSelect.value, 10);
 
 function selectSeat(e) {
 
@@ -21,9 +21,25 @@ function updateSelectedInfo() {
 
     const selectedSeats = document.querySelectorAll(".row .seat.selected");
 
-    count.textContent = selectedSeats.length;
+    const allSeats = document.querySelectorAll(".row .seat");
 
-    total.textContent = selectedSeats.length * ticketPrice;
+    const selectedSeatsIndex = [...selectedSeats].map(function (seat) {
+        return [...allSeats].indexOf(seat);
+    });
+
+    localStorage.setItem("selectedSeats", JSON.stringify(selectedSeatsIndex))
+
+    count.innerText = selectedSeats.length;
+
+    total.innerText = selectedSeats.length * ticketPrice;
+
+}
+
+// Save selected movie index and price into Local Storage
+function setMovieData(index, price) {
+
+    localStorage.setItem("selectedMovieIndex", index);
+    localStorage.setItem("selectedMoviePrice", price);
 
 }
 
@@ -31,3 +47,10 @@ function updateSelectedInfo() {
 // this way it will not be neccessary to add event listener to each seat
 // but only to the seat that was clicked on
 hallContainer.addEventListener("click", selectSeat);
+
+// Movie select event
+movieSelect.addEventListener("change", e => {
+    ticketPrice = parseInt(movieSelect.value, 10);
+    setMovieData(e.target.selectedIndex, e.target.value);
+    updateSelectedInfo();
+});
