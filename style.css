@@ -128,3 +128,16 @@ body {
 .info span {
     color: var(--selected-color);
 }
+
+.button.clear {
+    cursor: pointer;
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 20px;
+}
